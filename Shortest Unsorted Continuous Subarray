@@ -1,0 +1,60 @@
+/* 
+* apply some simple basic logic here which
+* is the beginning of the unsorted
+* array and obviously the last element
+* which is the end of the unsorted array
+* or or the sub-array which which we have
+* the sort in order to make the whole area
+*/
+
+#include <limits.h>
+#include <stdio.h>
+
+// Value of INT_MAX is +2147483647.
+// Value of INT_MIN is -2147483648.
+
+int findUnsortedSubarray(int* s, int n){
+int low = -1, high = -1;
+ 
+int max = INT_MIN, min = INT_MAX;
+for (int i = 0; i < n; i++)
+{
+    if (s[i] >= max)
+    {
+        max = s[i];
+    }
+    else
+    {
+        high = i;
+    }
+    if (s[n  - i - 1] <= min)
+    {
+        min = s[n  - i - 1];
+    }
+    else
+    {
+        low = n  - i - 1;
+    }
+}
+//printf("%d %d", low, high);
+if (low < 0 || high < 0)
+    return 0;
+
+printf("%d ", low);
+printf("%d ", high);
+  
+return high - low + 1;
+}
+
+
+int main() {
+  
+  int s[]= {2,6,4,8,10,9,15};
+  int n = sizeof(s)/sizeof(s[0]);
+  
+  int res = findUnsortedSubarray(  s,   n);
+  
+  //printf("%d",res);
+  
+  return 0;
+}

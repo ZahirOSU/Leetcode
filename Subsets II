@@ -1,0 +1,45 @@
+void helper(int* nums, int len, int* rsize, int* *rcsizes, int** *ans, int ptr, int _len) {
+    if (_len >= len || ptr >= len) return;  
+    
+    // Keep track of previous array, it needs to copy that array over and over again.
+    int prev = *rsize - 1;
+
+    for (int q = ptr; q < len; q++){ 
+        if (q > ptr && nums[q] == nums[q-1]) continue;  // Change added from Subsets 1 problem.
+        
+        (*rcsizes)[*rsize] = _len + 1;
+        (*ans)[*rsize] = malloc(sizeof(int) * (*rcsizes)[*rsize]);
+        
+        // Copy previous array.
+        memcpy((*ans)[*rsize], (*ans)[prev], sizeof(int) *_len); 
+           
+        // Tack on next number to new (copied from previous) array.
+        (*ans)[*rsize][_len] = nums[q]; 
+
+        (*rsize)++; 
+
+        helper(nums, len, rsize, rcsizes, ans, q + 1, _len + 1); 
+    } 
+}
+
+int cmp (int *a, int *b){
+    return *a - *b;
+}
+
+int** subsetsWithDup(int* nums, int len, int* rsize, int* *rcsizes){
+    // Solution from subsets 1 problem changed slightly by sorting and then checking
+    // if previous number was already seen in recursive function. 
+	
+    qsort(nums, len, sizeof(int), cmp); // Change added from Subsets 1 problem.
+    
+    *rcsizes = malloc(sizeof(int) * pow(2, len));
+    (*rcsizes)[0] = 0;
+    
+    int* *ans = malloc(sizeof(int*) * pow(2, len));
+    
+    *rsize = 1; 
+
+    helper(nums, len, rsize, rcsizes, &ans, 0, 0); 
+
+    return ans;
+}

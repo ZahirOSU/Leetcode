@@ -1,0 +1,40 @@
+int cmpfunc (const void *a, const void *b) {
+   return (*(int *)a - *(int *)b);
+}
+
+int minMeetingRooms(int** intervals, int intervalsSize, int* intervalsColSize) {
+    int start_ptr = 0, end_ptr = 0, rooms = 0;
+    int *start, *end;
+
+    if(!intervalsSize)
+        return 0;
+
+    /* get the start and end timings in arrays */
+    start = malloc(sizeof(int) * intervalsSize);
+    end = malloc(sizeof(int) * intervalsSize);
+
+    for (int i = 0; i < intervalsSize; i++) {
+        start[i] = intervals[i][0];
+        end[i] = intervals[i][1];
+    }
+    
+    /* sort start and end arrays */
+    qsort(start, intervalsSize, sizeof(int), cmpfunc);
+    qsort(end, intervalsSize, sizeof(int), cmpfunc);
+    
+    while (start_ptr < intervalsSize) {
+        /* keep adding new rooms for new meetings */
+        rooms++;
+
+        /* if one meeting has ended, reuse the room */
+        if (start[start_ptr++] >= end[end_ptr]) {
+            rooms--;
+            end_ptr++;
+        }
+    }
+
+    free(start);
+    free(end);
+
+    return rooms;
+}

@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+bool Armstrong(int n)
+{
+  
+  if(n == 0)
+      return 0;
+
+  int sum =0,m=0;
+
+  while(n>0)
+{
+    
+  m = n%10;
+  n/=10;
+  sum= m*m*m;
+    
+   
+}
+
+  
+if(sum==n)
+return 'true';
+else
+return 'false';
+      
+}
+
+int main() {
+   bool p = Armstrong(153);
+  
+  if (p) {
+        printf("True");
+    }
+    else {
+        printf("False");
+    }
+  return 0;
+}
